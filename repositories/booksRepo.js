@@ -5,8 +5,9 @@ const get = () => {
 };
 
 const add = (payload) => {
-    const book = new Book(payload);
-    return book.save();
+    const book = new Book(payload);  // book is a promise and the data of req.body(in ctrl file) gets stored in payload
+    console.log(book);
+    return book.save();   // inserts the data into database
 }
 
 
