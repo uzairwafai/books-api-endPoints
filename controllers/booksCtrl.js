@@ -6,6 +6,7 @@ const get = async (req, res) => {
     p.then(function (books) {   // p is a promise from booksRepo and then takes its resolved value as argument
         res.status(200);
         res.json(books);
+        console.log(p);
     })
         .catch(function (err) {   // catch takes the rejected value as an argument
             res.status(500);
