@@ -1,6 +1,6 @@
 const booksRepo = require('../repositories/booksRepo');
 
-const get = async (req, res) => {
+const get = (req, res) => {
     // const books = await booksRepo.get();
     var p = booksRepo.get();
     p.then(function (books) {   // p is a promise from booksRepo and then takes its resolved value as argument
