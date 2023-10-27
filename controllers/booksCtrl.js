@@ -2,8 +2,8 @@ const booksRepo = require('../repositories/booksRepo');
 
 const get = (req, res) => {
     // const books = await booksRepo.get();
-    const pageSize = req.params.size || 1;
-    const page = req.params.page || 10;
+    const pageSize = req.params.size || 5;
+    const page = req.params.page || 1;
 
     var p = booksRepo.get(pageSize, page);
     p.then(function (data) {   // p is a promise from booksRepo and then takes its resolved value as argument

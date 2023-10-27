@@ -1,4 +1,4 @@
-const Book = require('../model/booksModel');
+const Book = require('../model/book');
 
 // Simple get function without pagination
 // const get = () => {

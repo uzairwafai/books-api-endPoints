@@ -1,4 +1,4 @@
-// The flow goes like index.js-->routes folder-->controllers folder-->Repo folder(db)-->model folder
+// The flow goes like index.js-->routes folder-->controllers folder-->Repo folder(db talk happens here)-->imports collection model from models folder
 
 const express = require('express');
 const homeRouter = require('./routes/homeRouter');
