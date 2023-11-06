@@ -6,6 +6,12 @@ const structure = new mongoose.Schema({
     authorName: String,
     authorId: Number,
     bestseller: Boolean,
+    createdDate: Date,
+    // updatedDate: {
+    //     type: Date,
+    //     default: Date.now
+    // },
+    updatedDate: Date
 });
 
 module.exports = mongoose.model('Book', structure);

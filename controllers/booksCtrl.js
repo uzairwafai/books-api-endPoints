@@ -1,17 +1,34 @@
 const booksRepo = require('../repositories/booksRepo');
 
-const get = (req, res) => {
+const get = async (req, res) => {
     // const books = await booksRepo.get();
-    const pageSize = req.params.size || 5;
+    const pageSize = req.params.size || 3;
     const page = req.params.page || 1;
+    const sortBy = req.query.sort || '';
+    const sortDir = req.query.directn || '';
+    const search = req.query.search || '';
 
-    var p = booksRepo.get(pageSize, page);
+    const rows = await booksRepo.count(search);
+    const pages = Math.ceil(rows / pageSize);
+
+    var p = booksRepo.get(pageSize, page, sortBy, sortDir,search);
+    // console.log(sortBy);
     p.then(function (data) {   // p is a promise from booksRepo and then takes its resolved value as argument
         res.status(200);
-        res.json(data);
+        const response = {
+            metadata: {
+                BookRecordsRetrieved:rows,
+                pages,
+            },
+            data: data,  // the actual resolved value(data) is stored in variable data(can be any name)
+        };
+
+
+        res.json(response);
         // console.log(p);
     })
         .catch(function (err) {   // catch takes the rejected value as an argument
+            console.log(err.message);
             res.status(500);
             res.send('Internal Server Error');
         });
@@ -19,6 +36,8 @@ const get = (req, res) => {
 
 const post = async (req, res) => {
     try {
+        req.body.createdDate = new Date();
+        req.body.updatedDate = new Date();
         await booksRepo.add(req.body);
         res.status(200);
         res.send('Book data added succesfully');
@@ -60,7 +79,7 @@ const getById = async function (req, res) {
 
     }
     catch (err) {
-        console.log(err);
+        //console.log(err);
         if (err.message.indexOf('Cast to ObjectId failed') > -1) {
             res.status(404);
             res.send('Not found as id length does not match.');
@@ -76,13 +95,31 @@ const getById = async function (req, res) {
 
 const update = async (req, res) => {
     try {
+        req.body.updatedDate = Date.now();
         const id = req.params.id;
         const data = req.body;
         await booksRepo.update(id, data);
-        res.status(200);
+        res.status(204);
         res.send();
     }
-    catch {
+    catch (err) {
+        res.status(500);
+        res.send('Internal Server Error');
+    }
+};
+
+const patch = async (req, res) => {
+    try {
+
+        req.body.updatedDate = Date.now();
+        const id = req.params.id;
+        const data = req.body;
+        await booksRepo.patch(id, data);
+        res.status(200);
+        res.send('Updated partially')
+    }
+    catch (err) {
+        console.log(err);
         res.status(500);
         res.send('Internal Server Error');
     }
@@ -98,4 +135,5 @@ module.exports = {
     remove,
     getById,
     update,
+    patch,
 }
