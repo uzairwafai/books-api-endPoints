@@ -1,4 +1,5 @@
-
+const jwt = require('jsonwebtoken');
+const config = require('../config');  //   config/index is implicitly called
 
 function basicAuth(req, res, next) {        // middleware
     const headers = req.headers;
@@ -26,8 +27,28 @@ function basicAuth(req, res, next) {        // middleware
 
 };
 
+const tokenAuth = (req, res, next) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.status(401).send('auth header not sent');
+        } else {
+            const tokens = authHeader.split(' ');  // token generated in signin is like Bearer jhfkjdshkAgdhg3j=/.sdgf
+            const jwtToken = tokens[1];
+
+            const decodedToken = jwt.verify(jwtToken, config.jwtSecret);
+            console.log(decodedToken);
+            next();
+        }
+    } catch (err) {
+        // console.error(err);
+        res.status(401).send('Token auth Failed');
+    }
+};
 
 
-module.exports={
+
+module.exports = {
     basicAuth,
+    tokenAuth,
 }

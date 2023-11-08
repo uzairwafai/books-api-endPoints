@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 //const authMiddleware=require('./middlewares/auth');
 //another way of doinf this is object de structuring viz below
 const { basicAuth } = require('./middlewares/auth');
+const { tokenAuth } = require('./middlewares/auth');
 const app = express();
 const port = 441;
 
@@ -25,6 +26,7 @@ app.use('/', homeRouter);      // these two line are public as authenticate midd
 app.use('/users', userRouter);
 
 //app.use(authMiddleware.basicAuth);   // if line 9 was in use
-app.use(basicAuth);                    // since line 11 is in use
+//app.use(basicAuth);                    // since line 11 is in use
+app.use(tokenAuth);
 app.use('/api/books', booksRouter);             // this route is private as auth middleware is above it
 
