@@ -9,7 +9,7 @@ const structure = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        maxLength: 10,
+        //maxLength: 10,
     },
     firstName: {
         type: String,
