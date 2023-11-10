@@ -17,6 +17,7 @@ const signUp = async (req, res) => {
     try {
         req.body.createdDate = new Date();
         const body = req.body;               //   const {body}= req; also works the same way
+        body.role = 'User'
         body.password = await bcrypt.hash(body.password, 2);   // 2 salt rounds
         await userRepo.add(body);    //  body will be used as payload in add function of repo
         res.status(201).send('User Created');
@@ -48,7 +49,9 @@ const signIn = async (req, res) => {
             const result = await bcrypt.compare(req.body.password, user.password);
             if (result) {
 
-                const token = jwt.sign({ email: user.email }, config.jwtSecret, { expiresIn: 30 });
+                const token = jwt.sign({ email: user.email, role: user.role }, config.jwtSecret, { expiresIn: 300 });  /* first param is the data to be added
+                 in the token, second param is the seret string which must match during authentication
+                 and third is the expiry time of the token after which authentication fails */
                 res.status(200).json({ token_generated: token });
             } else {
                 res.status(401).send('Unauthorized');

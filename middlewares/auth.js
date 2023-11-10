@@ -37,7 +37,12 @@ const tokenAuth = (req, res, next) => {
             const jwtToken = tokens[1];
 
             const decodedToken = jwt.verify(jwtToken, config.jwtSecret);
-            console.log(decodedToken);
+            // console.log(decodedToken);
+            // console.log(req);
+            req.role = decodedToken.role;   /* as token object contains email and role so we add role property to req object
+             so that we can use it. role property was not present in req obj till now, we do it because re q obj has access to all middlewares and handlers
+             and this decodedToken obj is only available in this function and will not be available in the next middleware whre role property
+             is required*/
             next();
         }
     } catch (err) {
@@ -47,8 +52,17 @@ const tokenAuth = (req, res, next) => {
 };
 
 
+const authorizeAdmin = (req, res, next) => {
+    const role = req.role;
+    console.log(role);
+    if (role === 'admin') next();
+    else res.status(403).send('Forbidden');
+
+};
+
 
 module.exports = {
     basicAuth,
     tokenAuth,
+    authorizeAdmin,
 }
