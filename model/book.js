@@ -13,7 +13,7 @@ const structure = new mongoose.Schema({
         validate: {                                     // custom validation
             validator: function (val) {
                 console.log(val);
-                if (val.charAt(0)==='a') {
+                if (val.charAt(0) === 'a') {
                     return false;
                 }
                 else {
@@ -34,6 +34,9 @@ const structure = new mongoose.Schema({
         max: [1000, 'Author id can\'t be > 1000'],
     },
     bestseller: Boolean,
+    image: {
+        type: String,
+    },
     createdDate: Date,
     // updatedDate: {
     //     type: Date,

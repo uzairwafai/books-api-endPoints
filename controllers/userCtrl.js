@@ -49,7 +49,7 @@ const signIn = async (req, res) => {
             const result = await bcrypt.compare(req.body.password, user.password);
             if (result) {
 
-                const token = jwt.sign({ email: user.email, role: user.role }, config.jwtSecret, { expiresIn: 300 });  /* first param is the data to be added
+                const token = jwt.sign({ email: user.email, role: user.role }, config.jwtSecret, { expiresIn: 800 });  /* first param is the data to be added
                  in the token, second param is the seret string which must match during authentication
                  and third is the expiry time of the token after which authentication fails */
                 res.status(200).json({ token_generated: token });
