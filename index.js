@@ -22,11 +22,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/library')
 
 
 app.use(bodyParser.json());
+app.use(express.static('uploads'));  // static middleware to serve static files
 app.use('/', homeRouter);      // these two line are public as authenticate middleware is below them
 app.use('/users', userRouter);
 
 //app.use(authMiddleware.basicAuth);   // if line 9 was in use
 //app.use(basicAuth);                    // since line 11 is in use
-app.use(tokenAuth);
+//app.use(tokenAuth);
 app.use('/api/books', booksRouter);             // this route is private as auth middleware is above it
 
