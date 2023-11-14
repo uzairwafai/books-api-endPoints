@@ -13,14 +13,16 @@ const { tokenAuth } = require('./middlewares/auth');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const config = require('./config');
 
 const app = express();
-const port = 441;
+const port = process.env.PORT || 441;
 
 app.listen(port, () => console.log(`API listening on port: ${port}`));
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/library')
+//mongoose.connect('mongodb://127.0.0.1:27017/library')
+mongoose.connect(config.connectionStr)
     .then(() => console.log('connected to Db'))
     .catch(err => console.log(err));
 
