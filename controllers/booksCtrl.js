@@ -98,8 +98,14 @@ const getById = async function (req, res) {
     try {
         const id = req.params.id;
         const data = await booksRepo.getById(id);
+
+
         // console.log('data...', data);
+        // data.image=data.image ? `${req.protocol}://${req.get('host')}/${data.image}` : '';;
         if (data) {
+
+            data.image = data.image ? `${req.protocol}://${req.get('host')}/${data.image}` : 'Not available';
+
             res.status(200);
             res.json(data);
 
