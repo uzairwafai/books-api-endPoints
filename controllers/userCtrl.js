@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 
 const userRepo = require('../repositories/userRepo');
 const config = require('../config');
+const logger = require('../util/logger');
 
 
 const signUp = async (req, res) => {
@@ -25,6 +26,7 @@ const signUp = async (req, res) => {
 
 
     catch (err) {
+        logger.error(err);
         if (hasValidationError(err)) {
             res.status(400);
             res.json(err.errors);

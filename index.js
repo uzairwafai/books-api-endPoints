@@ -10,6 +10,10 @@ const bodyParser = require('body-parser');
 //another way of doinf this is object de structuring viz below
 const { basicAuth } = require('./middlewares/auth');
 const { tokenAuth } = require('./middlewares/auth');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
+
 const app = express();
 const port = 441;
 
@@ -20,6 +24,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/library')
     .then(() => console.log('connected to Db'))
     .catch(err => console.log(err));
 
+const ws = fs.createWriteStream(path.join(__dirname, 'logs', 'req.log'), { flags: 'a' });
+
+app.use(morgan('common'));   // for console
+
+app.use(morgan('common', {     // for logs file
+    stream: ws
+}));
 
 app.use(bodyParser.json());
 app.use(express.static('uploads'));  // static middleware to serve static files

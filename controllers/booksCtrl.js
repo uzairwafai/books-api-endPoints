@@ -1,9 +1,12 @@
 const booksRepo = require('../repositories/booksRepo');
+const logger = require('../util/logger');
+
 
 const get = async (req, res) => {
     // const books = await booksRepo.get();
 
     try {
+        logger.info('request arrived');
         const pageSize = req.params.size || 3;
         const page = req.params.page || 1;
         const sortBy = req.query.sort || '';
@@ -46,14 +49,15 @@ const get = async (req, res) => {
             },
             data: fetchedData,  // the actual resolved value(data) is stored in variable data(can be any name)
         };
-
-
+        logger.info('response processed');
+        res.status(200);
         res.json(response);
 
     }
     catch {
         (function (err) {   // catch takes the rejected value as an argument
             console.log(err.message);
+            logger.error(err);
             res.status(500);
             res.send('Internal Server Error');
         });
