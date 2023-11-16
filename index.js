@@ -22,7 +22,7 @@ app.listen(port, () => console.log(`API listening on port: ${port}`));
 
 
 //mongoose.connect('mongodb://127.0.0.1:27017/library')
-mongoose.connect(config.conStr)
+mongoose.connect(config.connectionStr)
     .then(() => console.log('connected to Db'))
     .catch(err => console.log(err));
 
