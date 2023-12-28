@@ -6,6 +6,7 @@ const booksRouter = require('./routes/booksRouter');
 const userRouter = require('./routes/userRouter');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 //const authMiddleware=require('./middlewares/auth');
 //another way of doinf this is object de structuring viz below
 const { basicAuth } = require('./middlewares/auth');
@@ -25,7 +26,7 @@ app.listen(port, () => console.log(`API listening on port: ${port}`));
 mongoose.connect(config.connectionStr)
     .then(() => console.log('connected to Db'))
     .catch(err => console.log(err));
-
+app.use(cors());
 const ws = fs.createWriteStream(path.join(__dirname, 'logs', 'req.log'), { flags: 'a' });
 
 app.use(morgan('common'));   // for console
